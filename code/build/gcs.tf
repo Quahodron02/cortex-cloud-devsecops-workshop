@@ -8,14 +8,20 @@ resource "google_storage_bucket" "example" {
   location      = "us-central1"
   force_destroy = true
 
-  uniform_bucket_level_access = false
+  # Enable versioning to keep a history of object changes
+  versioning {
+    enabled = true
+  }
+
+  # Enable uniform bucket-level access for consistent permission management
+  uniform_bucket_level_access = true
+
+  # Enforce public access prevention
   public_access_prevention = "enforced"
-}
 
-resource "random_id" "rand_suffix" {
-  byte_length = 4
-}
-
-output "bucket_name" {
-  value = google_storage_bucket.example.name
+  # Enable logging for access auditing
+  logging {
+    log_bucket        = "your-logging-bucket"  # Set your existing bucket name for logs
+    log_object_prefix = "example-bucket-logs"
+  }
 }
