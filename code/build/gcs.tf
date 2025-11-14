@@ -7,6 +7,12 @@ resource "random_id" "rand_suffix" {
   byte_length = 4
 }
 
+variable "var_1" {
+  type    = string
+  default = "value-1"
+}
+
+
 resource "google_storage_bucket" "example" {
   name          = "demo-${random_id.rand_suffix.hex}"
   location      = "us-central1"
